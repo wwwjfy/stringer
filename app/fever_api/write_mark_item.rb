@@ -13,7 +13,16 @@ module FeverAPI
     end
 
     def call(params = {})
-      mark_item_as(params[:id], params[:as]) if params[:mark] == "item"
+      item_ids = begin
+                   params[:id].split(",")
+                 rescue
+                   nil
+                 end
+      if item_ids
+        item_ids.each do |id|
+          mark_item_as(id, params[:as]) if params[:mark] == "item"
+        end
+      end
 
       {}
     end
