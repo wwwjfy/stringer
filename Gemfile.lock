@@ -78,6 +78,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    openssl (2.1.2)
     parser (2.3.0.6)
       ast (~> 2.2)
     pg (0.18.4)
@@ -193,13 +194,14 @@ DEPENDENCIES
   i18n
   loofah (~> 2.0)
   nokogiri (~> 1.6, >= 1.6.7.2)
+  openssl
   pg (~> 0.18.4)
   pry-byebug (~> 1.2)
   rack-protection (~> 1.5)
   rack-ssl (~> 1.4)
   rack-test (~> 0.6)
   racksh (~> 1.0)
-  rake (~> 10.1, >= 10.1.1)
+  rake (~> 10.2, >= 10.1.1)
   rspec (~> 3.4)
   rspec-html-matchers (~> 0.7)
   rubocop (~> 0.38)
@@ -219,7 +221,7 @@ DEPENDENCIES
   will_paginate (~> 3.1)
 
 RUBY VERSION
-   ruby 2.3.3p222
+   ruby 2.5.3p105
 
 BUNDLED WITH
-   1.16.1
+   1.17.1
