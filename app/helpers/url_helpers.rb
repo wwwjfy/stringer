@@ -1,5 +1,5 @@
 require "nokogiri"
-require "uri"
+require "addressable/uri"
 
 module UrlHelpers
   ABS_RE = URI::DEFAULT_PARSER.regexp[:ABS_URI]
@@ -25,7 +25,7 @@ module UrlHelpers
   end
 
   def normalize_url(url, base_url)
-    uri = URI.parse(url.strip)
+    uri = Addressable::URI.parse(url.strip)
 
     # resolve (protocol) relative URIs
     if uri.relative?

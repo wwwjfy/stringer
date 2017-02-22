@@ -24,6 +24,7 @@ group :development, :test do
   gem "timecop", "~> 0.8"
 end
 
+gem "addressable"
 gem "openssl"
 gem "activerecord", "~> 4.2.6"
 gem "bcrypt", "~> 3.1"
