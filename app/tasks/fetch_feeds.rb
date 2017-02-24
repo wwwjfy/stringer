@@ -3,10 +3,11 @@ require "thread/pool"
 require_relative "fetch_feed"
 
 class FetchFeeds
-  def initialize(feeds, pool = nil)
+  def initialize(feeds, pool = nil, logger: nil)
     @pool  = pool
     @feeds = feeds
     @feeds_ids = []
+    @logger = logger
   end
 
   def fetch_all
@@ -16,7 +17,7 @@ class FetchFeeds
 
     @feeds.each do |feed|
       @pool.process do
-        FetchFeed.new(feed).fetch
+        FetchFeed.new(feed, logger: @logger).fetch
 
         ActiveRecord::Base.connection.close
       end

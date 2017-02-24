@@ -26,6 +26,7 @@ class FetchFeed
     FeedRepository.set_status(:red, @feed)
 
     @logger.error "Something went wrong when parsing #{@feed.url}: #{ex}" if @logger
+    @logger.error ex.backtrace if @logger
   end
 
   private
@@ -39,7 +40,8 @@ class FetchFeed
   end
 
   def feed_modified(raw_feed)
-    new_entries_from(raw_feed).each do |entry|
+    new_entries = new_entries_from(raw_feed)
+    new_entries.each do |entry|
       StoryRepository.add(entry, @feed)
     end
     if @feed.favicon_id.nil? && new_entries.length > 0

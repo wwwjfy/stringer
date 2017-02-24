@@ -3,7 +3,6 @@ require "uri"
 require "nokogiri"
 require "open-uri"
 require_relative "../models/favicon"
-require "pry"
 
 def get_favicon(url, entries)
   entries.each do |entry|
@@ -27,9 +26,11 @@ class FaviconFetcher
     doc = Nokogiri::HTML(open(url))
     favicon_url = get_favicon(url, doc.xpath('/html/head/link[@rel="shortcut icon" or @rel="icon"]'))
     data = nil
-    if favicon_url
+    if !favicon_url.nil?
       data = "image/gif;base64," + Base64.strict_encode64(open(favicon_url).string)
+      Favicon.create(data: data)
+    else
+      Favicon.create()
     end
-    Favicon.create(data: data)
   end
 end

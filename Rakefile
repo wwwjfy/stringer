@@ -17,9 +17,12 @@ require_relative "./app/tasks/change_password"
 require_relative "./app/tasks/remove_old_stories.rb"
 require_relative "./app/commands/feeds/add_new_feed"
 
+logger = Logger.new(STDOUT)
+logger.level = Logger::DEBUG
+
 desc "Fetch all feeds."
 task :fetch_feeds do
-  FetchFeeds.new(Feed.all).fetch_all
+  FetchFeeds.new(Feed.all, logger: logger).fetch_all
 end
 
 desc "Lazily fetch all feeds."
@@ -36,7 +39,7 @@ end
 
 desc "Fetch single feed"
 task :fetch_feed, :id do |_t, args|
-  FetchFeed.new(Feed.find(args[:id])).fetch
+  FetchFeed.new(Feed.find(args[:id]), logger: logger).fetch
 end
 
 desc "Clear the delayed_job queue."
