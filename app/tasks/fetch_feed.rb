@@ -3,6 +3,7 @@ require "feedjira"
 require_relative "../repositories/story_repository"
 require_relative "../repositories/feed_repository"
 require_relative "../commands/feeds/find_new_stories"
+require_relative "../utils/favicon_fetcher"
 
 class FetchFeed
   def initialize(feed, parser: Feedjira::Feed, logger: nil)
@@ -40,6 +41,9 @@ class FetchFeed
   def feed_modified(raw_feed)
     new_entries_from(raw_feed).each do |entry|
       StoryRepository.add(entry, @feed)
+    end
+    if @feed.favicon_id.nil? && new_entries.length > 0
+      @feed.favicon_id = FaviconFetcher.fetch_favicon(new_entries[0].url).id
     end
 
     FeedRepository.update_last_fetched(@feed, raw_feed.last_modified)

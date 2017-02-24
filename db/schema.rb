@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102103617) do
+ActiveRecord::Schema.define(version: 20170222164920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,10 @@ ActiveRecord::Schema.define(version: 20141102103617) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "favicons", force: :cascade do |t|
+    t.text "data"
+  end
+
   create_table "feeds", force: :cascade do |t|
     t.string   "name"
     t.text     "url"
@@ -39,6 +43,7 @@ ActiveRecord::Schema.define(version: 20141102103617) do
     t.datetime "updated_at"
     t.integer  "status"
     t.integer  "group_id"
+    t.integer  "favicon_id"
   end
 
   add_index "feeds", ["url"], name: "index_feeds_on_url", unique: true, using: :btree

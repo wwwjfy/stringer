@@ -1,5 +1,11 @@
+require_relative "../repositories/favicon_repository"
+
 module FeverAPI
   class ReadFavicons
+    def initialize(options = {})
+      @favicon_repository = options.fetch(:favicon_repository) { FaviconRepository }
+    end
+
     def call(params = {})
       if params.keys.include?("favicons")
         { favicons: favicons }
@@ -11,12 +17,7 @@ module FeverAPI
     private
 
     def favicons
-      [
-        {
-          id: 0,
-          data: "image/gif;base64,R0lGODlhAQABAIAAAObm5gAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-        }
-      ]
+      @favicon_repository.list.map(&:as_fever_json)
     end
   end
 end

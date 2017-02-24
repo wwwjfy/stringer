@@ -26,7 +26,7 @@ class Feed < ActiveRecord::Base
   def as_fever_json
     {
       id: id,
-      favicon_id: 0,
+      favicon_id: favicon_id,
       title: name,
       url: url,
       site_url: url,
