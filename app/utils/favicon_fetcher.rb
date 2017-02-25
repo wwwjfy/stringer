@@ -28,7 +28,7 @@ class FaviconFetcher
     favicon_url = get_favicon(url, doc.xpath('/html/head/link[@rel="shortcut icon" or @rel="icon"]'))
     data = nil
     if !favicon_url.nil?
-      data = "image/gif;base64," + Base64.strict_encode64(open(favicon_url).string)
+      data = "image/gif;base64," + Base64.strict_encode64(open(favicon_url).read)
       Favicon.create(data: data)
     else
       Favicon.create()
