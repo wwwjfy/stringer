@@ -43,6 +43,13 @@ task :fetch_feed, :id do |_t, args|
   FetchFeed.new(Feed.find(args[:id]), logger: logger).fetch
 end
 
+desc "Add a feed"
+task :add_feed, :url do |_t, args|
+  if !args[:url].nil?
+    AddNewFeed.add(args[:url])
+  end
+end
+
 desc "Clear the delayed_job queue."
 task :clear_jobs do
   Delayed::Job.delete_all
