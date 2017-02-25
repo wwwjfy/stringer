@@ -18,7 +18,8 @@ require_relative "./app/tasks/remove_old_stories.rb"
 require_relative "./app/commands/feeds/add_new_feed"
 
 logger = Logger.new(STDOUT)
-logger.level = Logger::DEBUG
+logger.level = Logger::INFO
+ActiveRecord::Base.logger = logger
 
 desc "Fetch all feeds."
 task :fetch_feeds do
