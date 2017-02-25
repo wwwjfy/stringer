@@ -19,6 +19,7 @@ def get_favicon(url, entries)
       end
     end
   end
+  return
 end
 
 class FaviconFetcher
