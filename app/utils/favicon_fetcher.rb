@@ -23,7 +23,7 @@ end
 
 class FaviconFetcher
   def self.fetch_favicon(url)
-    doc = Nokogiri::HTML(open(url))
+    doc = Nokogiri::HTML(open(URI.escape(url)))
     favicon_url = get_favicon(url, doc.xpath('/html/head/link[@rel="shortcut icon" or @rel="icon"]'))
     data = nil
     if !favicon_url.nil?
