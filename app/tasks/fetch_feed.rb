@@ -41,11 +41,11 @@ class FetchFeed
 
   def feed_modified(raw_feed)
     new_entries = new_entries_from(raw_feed)
-    new_entries.each do |entry|
-      StoryRepository.add(entry, @feed)
-    end
     if @feed.favicon_id.nil? && new_entries.length > 0
       @feed.favicon_id = FaviconFetcher.fetch_favicon(new_entries[0].url).id
+    end
+    new_entries.each do |entry|
+      StoryRepository.add(entry, @feed)
     end
 
     FeedRepository.update_last_fetched(@feed, raw_feed.last_modified)
