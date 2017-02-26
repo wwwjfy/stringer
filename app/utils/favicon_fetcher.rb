@@ -19,18 +19,21 @@ def get_favicon(url, entries)
       end
     end
   end
-  return
+  url = URI.parse(url)
+  url.path = "/favicon.ico"
+  url.query = ""
+  url.fragment = ""
+  return url.to_s
 end
 
 class FaviconFetcher
   def self.fetch_favicon(url)
-    doc = Nokogiri::HTML(open(URI.escape(url)))
-    favicon_url = get_favicon(url, doc.xpath('/html/head/link[@rel="shortcut icon" or @rel="icon"]'))
-    data = nil
-    if !favicon_url.nil?
+    begin
+      doc = Nokogiri::HTML(open(URI.escape(url)))
+      favicon_url = get_favicon(url, doc.xpath('/html/head/link[@rel="shortcut icon" or @rel="icon"]'))
       data = "image/gif;base64," + Base64.strict_encode64(open(favicon_url).read)
       Favicon.create(data: data)
-    else
+    rescue
       Favicon.create()
     end
   end
