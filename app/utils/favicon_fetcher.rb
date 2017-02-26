@@ -22,7 +22,7 @@ def get_favicon(url, entries)
       end
     end
   end
-  url = URI.parse(url)
+  url = URI.parse(URI.escape(url))
   url.path = "/favicon.ico"
   url.query = ""
   url.fragment = ""
