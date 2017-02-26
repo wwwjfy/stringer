@@ -9,12 +9,15 @@ def get_favicon(url, entries)
     if entry["href"]
       if entry["href"].start_with? "http"
         return entry["href"]
-      else
+      elsif entry["href"].start_with? "/"
         url = URI.parse(url)
         url.path = "/"
         url.query = ""
         url.fragment = ""
         url += entry["href"]
+        return url.to_s
+      else
+        url = URI.join(url, entry["href"])
         return url.to_s
       end
     end
