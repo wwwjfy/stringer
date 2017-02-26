@@ -32,7 +32,23 @@ class FetchFeed
   private
 
   def fetch_raw_feed
-    @parser.fetch_and_parse(@feed.url)
+    conn = Faraday.new(url: @feed.url) do |faraday|
+      faraday.use FaradayMiddleware::FollowRedirects, limit: 3
+      faraday.adapter :net_http
+    end
+    resp = conn.get do |req|
+      req.headers["User-Agent"] = "Stringer"
+    end
+    body = resp.body
+    encoding = begin
+                 Encoding.find(Nokogiri::XML(body).encoding || "")
+               rescue ArgumentError
+                 Encoding::UTF_8
+               end
+    if encoding != Encoding::UTF_8
+      body = body.encode(Encoding::UTF_8, encoding)
+    end
+    @parser.parse body
   end
 
   def feed_not_modified
