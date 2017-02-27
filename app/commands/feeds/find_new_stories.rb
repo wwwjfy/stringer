@@ -3,18 +3,16 @@ require_relative "../../repositories/story_repository"
 class FindNewStories
   STORY_AGE_THRESHOLD_DAYS = 3
 
-  def initialize(raw_feed, feed_id, last_fetched, latest_entry_id = nil)
+  def initialize(raw_feed, feed_id, last_fetched)
     @raw_feed = raw_feed
     @feed_id = feed_id
     @last_fetched = last_fetched
-    @latest_entry_id = latest_entry_id
   end
 
   def new_stories
     stories = []
 
     @raw_feed.entries.each do |story|
-      break if @latest_entry_id && story.id == @latest_entry_id
       next if story_age_exceeds_threshold?(story) || StoryRepository.exists?(story.id, @feed_id)
       stories << story
     end
