@@ -45,9 +45,7 @@ class FetchFeed
                rescue ArgumentError
                  Encoding::UTF_8
                end
-    if encoding != Encoding::UTF_8
-      body = body.encode(Encoding::UTF_8, encoding)
-    end
+    body.force_encoding(encoding)
     @parser.parse body
   end
 
