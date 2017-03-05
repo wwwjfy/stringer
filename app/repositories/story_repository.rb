@@ -9,7 +9,7 @@ class StoryRepository
   def self.add(entry, feed)
     Story.create(feed: feed,
                  title: extract_title(entry),
-                 permalink: extract_url(entry, feed),
+                 permalink: extract_url(entry, feed) || entry.id,
                  body: extract_content(entry),
                  is_read: false,
                  is_starred: false,
@@ -85,7 +85,7 @@ class StoryRepository
   def self.extract_url(entry, feed)
     return entry.enclosure_url if entry.url.nil? && entry.respond_to?(:enclosure_url)
 
-    normalize_url(entry.url, feed.url) unless entry.url.nil?
+    normalize_url(entry.url || entry.entry_id, feed.url) unless entry.url.nil?
   end
 
   def self.extract_content(entry)
