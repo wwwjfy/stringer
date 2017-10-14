@@ -27,7 +27,7 @@ class StoryRepository
 
   def self.fetch_unread_by_timestamp(timestamp)
     timestamp = Time.at(timestamp.to_i)
-    Story.where("stories.created_at < ?", timestamp).where(is_read: false)
+    Story.where("stories.published < ?", timestamp).where(is_read: false)
   end
 
   def self.fetch_unread_by_timestamp_and_group(timestamp, group_id)
@@ -36,7 +36,7 @@ class StoryRepository
 
   def self.fetch_unread_for_feed_by_timestamp(feed_id, timestamp)
     timestamp = Time.at(timestamp.to_i)
-    Story.where(feed_id: feed_id).where("created_at < ? AND is_read = ?", timestamp, false)
+    Story.where(feed_id: feed_id).where("published < ? AND is_read = ?", timestamp, false)
   end
 
   def self.save(story)
